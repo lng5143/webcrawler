@@ -1,0 +1,23 @@
+{
+  "name": "webcrawler",
+  "version": "1.0.0",
+  "description": "Project for HTTP and Networking course",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lng5143/webcrawler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lng5143/webcrawler/issues"
+  },
+  "homepage": "https://github.com/lng5143/webcrawler#readme",
+  "dependencies": {
+    "jest": "^29.5.0"
+  }
+}
