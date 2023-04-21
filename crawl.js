@@ -42,7 +42,24 @@ function normalizeURL(urlString) {
     return result;
 }
 
+async function crawlPage(currentURL) {
+    try {
+        const response = await fetch(currentURL);
+        if (response.status > 399) {
+            console.log(`Error in fetch with status code ${response.status} on page ${currentURL}`);
+        }
+        //if (response.headers[Content-Type] != 'text/html') {
+          //  console.log('Error: content type is not html');
+        //}
+
+        console.log(await response.text());
+    } catch(err) {
+        console.log(`Error in fetch : ${err.message} on page ${currentURL}`);
+    }
+}
+
 module.exports = {
     normalizeURL, 
-    getURLsFromHTML
+    getURLsFromHTML,
+    crawlPage
 }
