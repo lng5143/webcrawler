@@ -42,15 +42,29 @@ function normalizeURL(urlString) {
     return result;
 }
 
-async function crawlPage(currentURL) {
+async function crawlPage(baseURL, currentURL, pages) {
     try {
         const response = await fetch(currentURL);
         if (response.status > 399) {
             console.log(`Error in fetch with status code ${response.status} on page ${currentURL}`);
+            return;
         }
-        //if (response.headers[Content-Type] != 'text/html') {
-          //  console.log('Error: content type is not html');
-        //}
+
+        const contentType = response.headers.get('content-type');
+        if (contentType.includes('text/html')) {
+           console.log(`Non-HTML response, content type: ${contentType} on page ${currentURL}`);
+        }
+
+        const htmlBody = await response.text();
+        const URLs = getURLsFromHTML(htmlBody, baseURL);
+
+        for (const URL of URLs) {
+            crawlPage(baseURL, URL, )
+        }
+
+        // remaining problems 
+        // how to count pages? 
+        // what to return? 
 
         console.log(await response.text());
     } catch(err) {
