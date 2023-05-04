@@ -43,6 +43,23 @@ function normalizeURL(urlString) {
 }
 
 async function crawlPage(baseURL, currentURL, pages) {
+
+    const baseURLObj = new URL(baseURL);
+    const currentURLObj = new URL(currentURL);
+
+    if (baseURLObj.hostname !== currentURLObj.hostname) {
+        return pages;
+    }
+
+    const normalizedCurrentURL = normalizeURL(currentURL);
+
+    if (pages[normalizedCurrentURL] > 0) {
+        pages[normalizedCurrentURL]++;
+        return pages
+    }
+
+    pages[normalizedCurrentURL] = 1
+
     try {
         const response = await fetch(currentURL);
         if (response.status > 399) {
@@ -59,17 +76,17 @@ async function crawlPage(baseURL, currentURL, pages) {
         const URLs = getURLsFromHTML(htmlBody, baseURL);
 
         for (const URL of URLs) {
-            crawlPage(baseURL, URL, )
+            pages = await crawlPage(baseURL, URL, pages)
         }
 
         // remaining problems 
         // how to count pages? 
         // what to return? 
 
-        console.log(await response.text());
     } catch(err) {
         console.log(`Error in fetch : ${err.message} on page ${currentURL}`);
     }
+    return pages;
 }
 
 module.exports = {
